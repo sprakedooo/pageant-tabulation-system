@@ -148,7 +148,7 @@ INSERT INTO roles (role_name) VALUES ('admin'), ('judge'), ('tabulator'), ('disp
 INSERT INTO rounds (round_code, round_name, sequence, status) VALUES
   ('PRELIM', 'Preliminary Round', 1, 'pending'),
   ('TOP5',   'Top 5 Question & Answer', 2, 'pending'),
-  ('FINAL',  'Final Round - Back to Zero Q&A', 3, 'pending');
+  ('FINAL',  'Final Round', 3, 'pending');
 
 -- Preliminary categories
 INSERT INTO categories (round_id, category_name, weight, sequence) VALUES

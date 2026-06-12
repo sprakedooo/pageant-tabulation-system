@@ -83,7 +83,7 @@ router.post('/generate-top3', requireRole('admin'), async (req, res) => {
   await pool.query("UPDATE rounds SET status = 'locked' WHERE round_code = 'TOP5'");
   await pool.query("UPDATE categories c JOIN rounds r ON r.round_id = c.round_id SET c.status = 'locked' WHERE r.round_code = 'TOP5'");
 
-  await audit(req, 'TOP3_GENERATED', `Back to zero: final ranking will use Final Q&A only. Top 3: ${top3.map((c) => `#${c.candidate_number} ${c.candidate_name}`).join(', ')}`);
+  await audit(req, 'TOP3_GENERATED', `Top 3: ${top3.map((c) => `#${c.candidate_number} ${c.candidate_name}`).join(', ')}`);
   emitToStaff('rankings:update', { stage: 'TOP3' });
   emitToAll('stage:advanced', { stage: 'TOP3' });
   res.json({ top3 });

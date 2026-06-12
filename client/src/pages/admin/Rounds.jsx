@@ -36,7 +36,7 @@ export default function Rounds() {
         setNotice(`TOP 5 GENERATED: ${data.top5.map((c) => `#${c.candidate_number} ${c.candidate_name}`).join(' · ')}`);
       } else if (type === 'top3') {
         const { data } = await api.post('/rankings/generate-top3', { confirm: true });
-        setNotice(`TOP 3 GENERATED (Back to Zero — winner will be decided by Final Q&A only): ${data.top3.map((c) => `#${c.candidate_number} ${c.candidate_name}`).join(' · ')}`);
+        setNotice(`TOP 3 GENERATED: ${data.top3.map((c) => `#${c.candidate_number} ${c.candidate_name}`).join(' · ')}`);
       } else if (type === 'final') {
         const { data } = await api.post('/rankings/generate-final', { confirm: true });
         setNotice(`WINNER: #${data.final[0].candidate_number} ${data.final[0].candidate_name} 👑`);
@@ -88,8 +88,8 @@ export default function Rounds() {
             </button>
           )}
           {round.code === 'TOP5' && (
-            <button className="btn-gold mt-4" onClick={() => setConfirm({ type: 'top3', label: 'Generate the official TOP 3? This starts the BACK TO ZERO final round — earlier scores stay on record, but the winner will be decided only by the Final Q&A.' })}>
-              ⭐ GENERATE TOP 3 (Back to Zero)
+            <button className="btn-gold mt-4" onClick={() => setConfirm({ type: 'top3', label: 'Generate the official TOP 3? Earlier scores stay on record; the winner will be decided only by the Final Q&A.' })}>
+              ⭐ GENERATE TOP 3
             </button>
           )}
           {round.code === 'FINAL' && (
