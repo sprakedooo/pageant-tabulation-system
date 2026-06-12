@@ -31,10 +31,8 @@ export default function Login() {
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-royal via-ruby to-royal p-4">
       <div className="w-full max-w-sm">
         <div className="text-center mb-8">
-          <img src="/logo.png" alt="Miss Dumalinao 2026" className="mx-auto mb-4 h-40 w-auto drop-shadow-[0_0_25px_rgba(212,154,31,0.45)]" />
-          <h1 className="font-display text-3xl font-black text-gold-300">Miss Dumalinao</h1>
-          <p className="text-gold-100/60 tracking-[0.4em] text-sm mt-1">2026</p>
-          <p className="text-gray-400 text-xs mt-3">Official Pageant Tabulation System</p>
+          <img src="/logo.png" alt="Miss Dumalinao 2026" className="mx-auto mb-4 h-64 w-auto drop-shadow-[0_0_25px_rgba(212,154,31,0.45)]" />
+          <p className="text-gray-400 text-xs">Official Pageant Tabulation System</p>
         </div>
         <form onSubmit={submit} className="card !bg-white/10 !border-white/10 backdrop-blur space-y-4">
           {error && <div className="rounded-lg bg-red-500/20 border border-red-500/40 text-red-200 text-sm px-3 py-2">{error}</div>}
