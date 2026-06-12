@@ -1,0 +1,18 @@
+# Dependencies
+node_modules/
+
+# Secrets — never commit the real .env (DB password, JWT secret)
+server/.env
+
+# Build output (rebuilt on the deployment PC)
+client/dist/
+
+# Runtime data
+server/uploads/*
+!server/uploads/.gitkeep
+server/backups/*
+!server/backups/.gitkeep
+
+# OS / editor noise
+Thumbs.db
+.DS_Store
