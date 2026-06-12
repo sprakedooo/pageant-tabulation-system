@@ -28,9 +28,9 @@ export default function AdminLayout({ tabulator }) {
   return (
     <div className="min-h-screen md:flex">
       <aside className="md:w-60 shrink-0 bg-royal text-white md:min-h-screen">
-        <div className="p-5 border-b border-white/10 flex items-center gap-3">
-          <img src="/logo.png" alt="Miss Dumalinao 2026" className="h-16 w-auto object-contain drop-shadow-[0_0_12px_rgba(212,154,31,0.4)]" />
-          <p className="text-xs tracking-[0.3em] text-gold-100/70">TABULATION</p>
+        <div className="p-5 border-b border-white/10 text-center">
+          <img src="/logo.png" alt="Miss Dumalinao 2026" className="mx-auto h-32 w-auto object-contain drop-shadow-[0_0_15px_rgba(212,154,31,0.45)]" />
+          <p className="mt-2 text-xs tracking-[0.3em] text-gold-100/70">TABULATION</p>
         </div>
         <nav className="flex md:block overflow-x-auto p-2 md:p-3 gap-1">
           {links.map((l) => (
