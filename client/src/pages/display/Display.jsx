@@ -32,7 +32,7 @@ export default function Display() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-royal via-[#5a1216] to-black text-white cursor-pointer select-none" onDoubleClick={goFullscreen}>
       <header className="pt-10 pb-6 text-center">
-        <div className="text-4xl">👑</div>
+        <img src="/logo.jpg" alt="" className="mx-auto mb-3 h-28 w-28 rounded-full object-cover border-2 border-gold-400 shadow-[0_0_40px_rgba(212,154,31,0.5)]" />
         <h1 className="font-display text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-gold-200 via-gold-400 to-gold-200">
           {state.eventName}
         </h1>

@@ -28,9 +28,12 @@ export default function AdminLayout({ tabulator }) {
   return (
     <div className="min-h-screen md:flex">
       <aside className="md:w-60 shrink-0 bg-royal text-white md:min-h-screen">
-        <div className="p-5 border-b border-white/10">
-          <h1 className="font-display text-xl font-bold text-gold-300">Miss Dumalinao</h1>
-          <p className="text-xs tracking-[0.3em] text-gold-100/70">2026 · TABULATION</p>
+        <div className="p-5 border-b border-white/10 flex items-center gap-3">
+          <img src="/logo.jpg" alt="" className="h-12 w-12 rounded-full object-cover border border-gold-400" />
+          <div>
+            <h1 className="font-display text-xl font-bold text-gold-300">Miss Dumalinao</h1>
+            <p className="text-xs tracking-[0.3em] text-gold-100/70">2026 · TABULATION</p>
+          </div>
         </div>
         <nav className="flex md:block overflow-x-auto p-2 md:p-3 gap-1">
           {links.map((l) => (
