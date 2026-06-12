@@ -16,7 +16,7 @@ A complete, offline, LAN-based tabulation system for the live pageant event.
 - Real-time scoring with instant ranking updates (Socket.IO, no page refresh)
 - Automatic weighted score computation (criteria → category → overall)
 - Generate **Top 5** (from preliminary), **Top 3** (from Top 5 Q&A), and the **Final Ranking**
-- **Back-to-Zero final round** — generating Top 3 archives all previous scores; the winner is decided only by the Final Q&A
+- **Back-to-Zero final round** — earlier scores stay on record, but the winner is decided only by the Final Q&A
 - Judge tablet-optimized scoring screen with sliders, auto-save, submit confirmation, and post-submit lock (admin can unlock)
 - Tabulator live monitor (per-judge score matrix) — read-only
 - Public projection display (candidate profiles / Top 5 / Top 3 / winner) — **never shows scores**, fullscreen on double-click
@@ -142,7 +142,7 @@ Shut the server down afterwards; scores are saved.
 1. Open each remaining preliminary category as it happens on stage
    (Advocacy Speech, Production Number, Swimsuit, Evening Gown) → score → lock.
 2. **GENERATE TOP 5** (confirmation required) → projection "Announce Top 5".
-3. Open **Top 5 Q&A** → score → lock → **GENERATE TOP 3** ⚠ *archives all scores (Back to Zero)*.
+3. Open **Top 5 Q&A** → score → lock → **GENERATE TOP 3** (Back to Zero: earlier scores stay on record but don't carry into the final).
 4. Open **Final Q&A** → score → **GENERATE FINAL RANKING** → projection "Announce Winner" 👑.
 5. Print PDFs from **Reports** for judges' sign-off.
 

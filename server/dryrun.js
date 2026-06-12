@@ -276,9 +276,15 @@ async function login(username, password) {
   const top3Nums = (r.data.top3 || []).map((c) => c.candidate_number).sort();
   check('Top3', 'GENERATE TOP 3 → #3,#4,#5 (Q&A order, not prelim)', r.status === 200 && JSON.stringify(top3Nums) === JSON.stringify([3, 4, 5]), top3Nums.join(','));
 
-  // BACK TO ZERO: final-round ranking must now be all zeros (all scores archived)
+  // BACK TO ZERO: final round starts at zero (no Final Q&A scores yet)…
   r = await req('GET', '/api/rankings/final-round', { token: tokens.tab });
-  check('BackToZero', 'All previous scores archived — final round starts at zero', r.data.results.every((x) => x.overall === 0));
+  check('BackToZero', 'Final round starts at zero', r.data.results.every((x) => x.overall === 0));
+  // …but earlier scores are RETAINED for the record
+  r = await req('GET', '/api/rankings/preliminary', { token: tokens.tab });
+  const prelimRetained = r.data.results.every((x) => Math.abs(x.overall - expectedOverall(x.candidate_number)) < 0.001);
+  check('BackToZero', 'Preliminary scores retained for the record after Top 3', prelimRetained);
+  r = await req('GET', '/api/rankings/top5-round', { token: tokens.tab });
+  check('BackToZero', 'Top 5 Q&A scores retained for the record after Top 3', r.data.results.every((x) => x.overall > 0));
 
   // ================= 10. FINAL Q&A + WINNER =================
   const qaF = catByName['Final Question & Answer'];

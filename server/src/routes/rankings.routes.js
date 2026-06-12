@@ -77,12 +77,13 @@ router.post('/generate-top3', requireRole('admin'), async (req, res) => {
   for (const c of top3) await pool.query('UPDATE candidates SET is_top3 = 1 WHERE candidate_id = ?', [c.candidate_id]);
   await storeRanking('TOP3', top3, req.user.id);
 
-  // BACK TO ZERO: archive every score so far — final ranking uses only Final Q&A
-  await pool.query("UPDATE scores SET archived = 1 WHERE archived = 0");
+  // BACK TO ZERO: previous scores are retained for the record, but the final
+  // ranking reads only the FINAL round's Q&A scores — earlier rounds cannot
+  // affect the winner.
   await pool.query("UPDATE rounds SET status = 'locked' WHERE round_code = 'TOP5'");
   await pool.query("UPDATE categories c JOIN rounds r ON r.round_id = c.round_id SET c.status = 'locked' WHERE r.round_code = 'TOP5'");
 
-  await audit(req, 'TOP3_GENERATED', `Back to zero applied. Top 3: ${top3.map((c) => `#${c.candidate_number} ${c.candidate_name}`).join(', ')}`);
+  await audit(req, 'TOP3_GENERATED', `Back to zero: final ranking will use Final Q&A only. Top 3: ${top3.map((c) => `#${c.candidate_number} ${c.candidate_name}`).join(', ')}`);
   emitToStaff('rankings:update', { stage: 'TOP3' });
   emitToAll('stage:advanced', { stage: 'TOP3' });
   res.json({ top3 });

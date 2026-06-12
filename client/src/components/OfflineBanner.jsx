@@ -1,11 +1,17 @@
 import { useEffect, useState } from 'react';
 import { getSocket } from '../socket';
+import { useAuth } from '../context/AuthContext';
 
 // Shows a banner when the LAN connection to the server is lost.
 export default function OfflineBanner() {
+  const { user } = useAuth();
   const [offline, setOffline] = useState(false);
 
+  // Re-subscribe whenever the user changes: login/logout swaps the socket
+  // instance, and listeners on the old (disconnected) one would show a
+  // false "connection lost" banner.
   useEffect(() => {
+    setOffline(false);
     const socket = getSocket();
     const onDisconnect = () => setOffline(true);
     const onConnect = () => setOffline(false);
@@ -15,7 +21,7 @@ export default function OfflineBanner() {
       socket.off('disconnect', onDisconnect);
       socket.off('connect', onConnect);
     };
-  }, []);
+  }, [user]);
 
   if (!offline) return null;
   return (
