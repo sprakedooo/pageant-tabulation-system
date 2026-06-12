@@ -31,7 +31,7 @@ export default function Login() {
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-royal via-ruby to-royal p-4">
       <div className="w-full max-w-sm">
         <div className="text-center mb-8">
-          <img src="/logo.jpg" alt="Miss Dumalinao 2026" className="mx-auto mb-4 h-32 w-32 rounded-full object-cover border-2 border-gold-400 shadow-[0_0_30px_rgba(212,154,31,0.4)]" />
+          <img src="/logo.png" alt="Miss Dumalinao 2026" className="mx-auto mb-4 h-40 w-auto drop-shadow-[0_0_25px_rgba(212,154,31,0.45)]" />
           <h1 className="font-display text-3xl font-black text-gold-300">Miss Dumalinao</h1>
           <p className="text-gold-100/60 tracking-[0.4em] text-sm mt-1">2026</p>
           <p className="text-gray-400 text-xs mt-3">Official Pageant Tabulation System</p>
