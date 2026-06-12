@@ -115,6 +115,72 @@ router.get('/judge-sheets.pdf', async (req, res) => {
   doc.end();
 });
 
+// ---- Per-category judge sign-off sheets (auto-printed when a round is locked) ----
+router.get('/judge-sheets-category/:categoryId.pdf', async (req, res) => {
+  const categoryId = Number(req.params.categoryId);
+  const [[cat]] = await pool.query(
+    `SELECT c.category_name, c.weight, r.round_code, r.round_name
+       FROM categories c JOIN rounds r ON r.round_id = c.round_id WHERE c.category_id = ?`,
+    [categoryId]
+  );
+  if (!cat) return res.status(404).json({ error: 'Category not found' });
+
+  const [criteria] = await pool.query('SELECT criterion_id, criterion_name, weight FROM criteria WHERE category_id = ? ORDER BY sequence', [categoryId]);
+  const [judges] = await pool.query(
+    "SELECT j.judge_id, u.full_name FROM judges j JOIN users u ON u.user_id = j.user_id WHERE j.status = 'active' ORDER BY j.judge_id"
+  );
+  let candWhere = '';
+  if (cat.round_code === 'TOP5') candWhere = 'WHERE is_top5 = 1';
+  if (cat.round_code === 'FINAL') candWhere = 'WHERE is_top3 = 1';
+  const [candidates] = await pool.query(`SELECT candidate_id, candidate_number, candidate_name FROM candidates ${candWhere} ORDER BY candidate_number`);
+  const [rows] = await pool.query(
+    `SELECT s.judge_id, s.candidate_id, s.total, s.submitted_at, sd.criterion_id, sd.value
+       FROM scores s LEFT JOIN score_details sd ON sd.score_id = s.score_id
+      WHERE s.category_id = ? AND s.status = 'submitted'`,
+    [categoryId]
+  );
+  const byJudge = {};
+  for (const r of rows) {
+    const j = (byJudge[r.judge_id] = byJudge[r.judge_id] || {});
+    const c = (j[r.candidate_id] = j[r.candidate_id] || { total: r.total, details: {} });
+    if (r.criterion_id) c.details[r.criterion_id] = Number(r.value);
+  }
+
+  const doc = startPdf(res, `judge-sheets-${cat.category_name.replace(/\W+/g, '-').toLowerCase()}.pdf`,
+    `Judge Scoring Sheets — ${cat.category_name} (${Number(cat.weight)}%)`, true);
+
+  const critW = Math.min(90, Math.floor(380 / Math.max(criteria.length, 1)));
+  const widths = [34, 150, ...criteria.map(() => critW), 60];
+  const headers = ['#', 'Candidate', ...criteria.map((cr) => `${cr.criterion_name.slice(0, 28)} (${Number(cr.weight)}%)`), 'Total'];
+
+  judges.forEach((judge, i) => {
+    if (i > 0) doc.addPage();
+    doc.font('Helvetica-Bold').fontSize(12).fillColor('#222').text(`Judge: ${judge.full_name}`, doc.page.margins.left, doc.y);
+    doc.font('Helvetica').fontSize(9).fillColor('#555').text(`${cat.round_name} — ${cat.category_name}`);
+    doc.moveDown(0.5);
+    const mine = byJudge[judge.judge_id] || {};
+    pdfTable(doc, headers,
+      candidates.map((c) => {
+        const s = mine[c.candidate_id];
+        return [c.candidate_number, c.candidate_name,
+          ...criteria.map((cr) => (s && s.details[cr.criterion_id] != null ? s.details[cr.criterion_id] : '—')),
+          s ? Number(s.total).toFixed(2) : '—'];
+      }),
+      widths);
+
+    doc.moveDown(2);
+    doc.font('Helvetica').fontSize(9).fillColor('#222')
+      .text('I certify that the scores above are accurate, complete, and final.', doc.page.margins.left, doc.y);
+    doc.moveDown(2.5);
+    const y = doc.y;
+    doc.moveTo(doc.page.margins.left, y).lineTo(doc.page.margins.left + 220, y).strokeColor('#444').lineWidth(0.8).stroke();
+    doc.fontSize(8).fillColor('#555').text(`${judge.full_name} — Signature over printed name`, doc.page.margins.left, y + 4);
+    doc.text(`Date/Time: ____________________`, doc.page.margins.left + 280, y + 4);
+  });
+  if (!judges.length) doc.fontSize(10).text('No active judges.');
+  doc.end();
+});
+
 // ---- Audit logs PDF ----
 router.get('/audit.pdf', async (req, res) => {
   const [rows] = await pool.query(

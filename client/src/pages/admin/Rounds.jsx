@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import api, { errMsg } from '../../api';
 import ConfirmDialog from '../../components/ConfirmDialog';
 import { getSocket } from '../../socket';
+import printJudgeSheets from '../../printJudgeSheets';
 
 export default function Rounds() {
   const [categories, setCategories] = useState([]);
@@ -71,6 +72,11 @@ export default function Rounds() {
                 <div className="flex gap-2">
                   {cat.status !== 'active' && <button className="btn-gold !py-1 !px-3 !text-xs" onClick={() => setStatus(cat.category_id, 'active')}>Open Scoring</button>}
                   {cat.status === 'active' && <button className="btn-danger !py-1 !px-3 !text-xs" onClick={() => setStatus(cat.category_id, 'locked')}>Lock Scoring</button>}
+                  {cat.status === 'locked' && (
+                    <button className="btn-outline !py-1 !px-3 !text-xs" onClick={() => printJudgeSheets(cat.category_id).catch(() => setError('Could not generate judge sheets'))}>
+                      🖨 Judge Sheets
+                    </button>
+                  )}
                 </div>
               </div>
             ))}

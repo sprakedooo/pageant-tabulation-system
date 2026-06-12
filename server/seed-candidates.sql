@@ -15,7 +15,7 @@ INSERT INTO candidates (candidate_number, candidate_name, municipality, age, pho
   (4,  'Jhonie Lou Balbuena',        'Cluster 4', 18, '/uploads/candidate-4.jpg'),
   (5,  'Mariz S. Orapa',             'Cluster 5', 18, '/uploads/candidate-5.jpg'),
   (6,  'Mecel Mae L. Caparoso',      'Cluster 6', 18, '/uploads/candidate-6.jpg'),
-  (7,  'Janah Mae F. Abrenica',      'Cluster 7', 18, '/uploads/candidate-7.jpg'),
+  (7,  'Jana Mae F. Abrenica',      'Cluster 7', 18, '/uploads/candidate-7.jpg'),
   (8,  'Maraille Jhulaiza O. Awa',   'Cluster 8', 18, '/uploads/candidate-8.jpg'),
   (9,  'Rosemae Cabasura',           'LGU',       18, '/uploads/candidate-9.jpg'),
   (10, 'Jalaine O. Rosal',           'NGA',       18, '/uploads/candidate-10.jpg')

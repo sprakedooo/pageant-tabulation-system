@@ -2,6 +2,7 @@ import { NavLink, Outlet, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import DarkModeToggle from './DarkModeToggle';
 import LanHealth from './LanHealth';
+import PrintOnLock from './PrintOnLock';
 
 const adminLinks = [
   { to: '/admin', label: 'Dashboard', end: true },
@@ -66,6 +67,7 @@ export default function AdminLayout({ tabulator }) {
         <main className="p-4 md:p-6">
           <Outlet />
         </main>
+        <PrintOnLock />
       </div>
     </div>
   );
