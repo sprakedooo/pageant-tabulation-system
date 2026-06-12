@@ -1,10 +1,10 @@
 -- ============================================================
--- MISS DUMALINAO 2026 — Official Candidates
--- Photos must exist in server/uploads/ — run `npm run seed:candidates`
+-- MISS DUMALINAO 2026 - Official Candidates
+-- Photos must exist in server/uploads/ - run `npm run seed:candidates`
 -- which copies them from server/graphics/ and applies this file.
 --
 -- NOTE: candidate_number follows cluster order (LGU = 9, NGA = 10)
--- and age is a PLACEHOLDER (18) — correct both in Admin → Candidates.
+-- and age is a PLACEHOLDER (18) - correct both in Admin -> Candidates.
 -- ============================================================
 USE miss_dumalinao_2026;
 
